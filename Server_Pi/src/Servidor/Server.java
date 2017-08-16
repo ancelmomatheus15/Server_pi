@@ -4,6 +4,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
+import Cliente.Encrypt;
+
 public class Server {
 
 	public static void main(String[] args) {
@@ -31,5 +33,15 @@ public class Server {
 		}catch(Exception e){
 			System.out.println("Erro: " + e.getMessage());
 		}
+		
+		//tem que ter um printwriter
+		
+		String msg = "Svf/pa32u8dR5QAwS1mv1Q==";
+		String key = "1234567891234567";
+		
+
+		System.out.println(Decrypt.decrypt(msg, key));
+		
+		
 	}
 }

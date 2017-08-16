@@ -9,20 +9,25 @@ public class Cliente {
 
 	public static void main(String[] args) {
 		
-		try{
+		try{			
 			Socket client = new Socket("pi", 10015);													//novo socket client
 			
-			ObjectInputStream envio = new ObjectInputStream(client.getInputStream());				    //prepara obj para receber
-			Date data_atual = (Date)envio.readObject();													//recebe a data do servidor
+			ObjectInputStream recebida = new ObjectInputStream(client.getInputStream());				//prepara obj para receber
+			Date data_atual = (Date)recebida.readObject();												//recebe a data do servidor
 			
 			JOptionPane.showMessageDialog(null,"Data recebida do servidor:" + data_atual.toString());
-		    envio.close();
+		    recebida.close();
 		    System.out.println("Conexão encerrada");
 			
 		}catch(Exception e){
 			System.out.println("Erro: " + e.getMessage());
 		}
+		
+		String msg = "matheus";
+		String key = "1234567891234567";
+		
 
+		System.out.println(Encrypt.encrypt(msg, key));
 	}
 
 }
