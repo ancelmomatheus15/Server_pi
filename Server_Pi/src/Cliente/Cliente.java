@@ -21,7 +21,7 @@ public class Cliente {
 			String text = in.readLine();
 			
 			//Encripta a leitura
-			Encrypt.encrypt(text, key);
+			text = Encrypt.encrypt(text, key);
 			
 			//Envia a leitura para o servidor
 			ObjectOutputStream envio = new ObjectOutputStream(client.getOutputStream());
