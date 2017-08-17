@@ -1,33 +1,38 @@
 package Cliente;
-import java.io.ObjectInputStream;
-import java.net.Socket;
-import java.util.Date;
 
-import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 public class Cliente {
 
 	public static void main(String[] args) {
 		
+		String key = "1234567891234567";
+		
 		try{			
-			Socket client = new Socket("pi", 10015);													//novo socket client
+			//Cria o socket com nome de servidor e porta
+			Socket client = new Socket("pi", 10015);													
 			
-			ObjectInputStream recebida = new ObjectInputStream(client.getInputStream());				//prepara obj para receber
-			Date data_atual = (Date)recebida.readObject();												//recebe a data do servidor
+			//captura input do console
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Insira o texto a ser enviado: ");
+			String text = in.readLine();
 			
-			JOptionPane.showMessageDialog(null,"Data recebida do servidor:" + data_atual.toString());
-		    recebida.close();
+			//Encripta a leitura
+			Encrypt.encrypt(text, key);
+			
+			//Envia a leitura para o servidor
+			ObjectOutputStream envio = new ObjectOutputStream(client.getOutputStream());
+			envio.writeObject(text);
+			
+			//Encerra o processo
+		    envio.close();
 		    System.out.println("Conexão encerrada");
 			
 		}catch(Exception e){
 			System.out.println("Erro: " + e.getMessage());
 		}
-		
-		String msg = "matheus";
-		String key = "1234567891234567";
-		
-
-		System.out.println(Encrypt.encrypt(msg, key));
 	}
-
 }
