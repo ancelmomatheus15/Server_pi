@@ -13,7 +13,7 @@ public class Cliente {
 		
 		try{			
 			//Cria o socket com nome de servidor e porta
-			Socket client = new Socket("pi", 10015);													
+			Socket client = new Socket("pi", 12345);													
 			
 			//captura input do console
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

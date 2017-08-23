@@ -9,28 +9,28 @@ import java.net.Socket;
 
 public class MultiServer extends Thread{
 	
-	static ServerSocket server = null;
-	static Socket conexao;
+	static ServerSocket conexao = null;
+	static Socket aceitar = null;
 	
-	public MultiServer(Socket s) {
-		conexao = s; 
+	public MultiServer(Socket aux){
+		aceitar = aux;
 	}
-
+	
 	public static void main(String args[]){
 		
 		try{//tentando criar uma conexao
 		
-			server = new ServerSocket(11015);//Cria um SocketServer com porta 40000
+			conexao = new ServerSocket(12345);//Cria um SocketServer com porta 11015
 			
 			while(true){
-	           /* Cria um objeto Socket, mas passando informações características de um servidor,
-	            *no qual somente abre uma porta e aguarda a conexão de um cliente 
-	            */
-				conexao = server.accept();
+				
+				System.out.println("OUVINDO PORTA "+conexao.getLocalPort());
+				aceitar = conexao.accept();				
 				//cria uma thread que envia a conexao
-				Thread t = new MultiServer(conexao);
+				Thread t = new MultiServer(aceitar);
 				//inicia a thread t
 				t.start();
+				 
 			}
 		}catch(IOException e){
 			System.out.println("IOException "+e);
@@ -40,10 +40,10 @@ public class MultiServer extends Thread{
 	public void run(){
 		try{
 			// Cria uma buffer que irá armazenar as informações enviadas pelo cliente
-			BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+			BufferedReader entrada = new BufferedReader(new InputStreamReader(aceitar.getInputStream()));
 			
             // Cria uma stream de sáida para retorno das informações ao cliente
-            DataOutputStream saida = new DataOutputStream(conexao.getOutputStream());
+            DataOutputStream saida = new DataOutputStream(aceitar.getOutputStream());
 			
             // Faz a leitura das informações enviadas pelo cliente as amazenam na variável "EscritaCliente"
             String cypher = entrada.readLine();
