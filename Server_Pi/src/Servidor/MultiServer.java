@@ -20,12 +20,13 @@ public class MultiServer extends Thread{
 		
 		try{//tentando criar uma conexao
 		
-			conexao = new ServerSocket(12345);//Cria um SocketServer com porta 11015
+			conexao = new ServerSocket(10010);//Cria um SocketServer com porta 11015
+			System.out.println("OUVINDO PORTA "+conexao.getLocalPort());
 			
 			while(true){
 				
-				System.out.println("OUVINDO PORTA "+conexao.getLocalPort());
-				aceitar = conexao.accept();				
+				aceitar = conexao.accept();	
+				System.out.println("Cliente Conectado");
 				//cria uma thread que envia a conexao
 				Thread t = new MultiServer(aceitar);
 				//inicia a thread t
@@ -37,7 +38,10 @@ public class MultiServer extends Thread{
 		}
 	}
 
-	public void run(){
+	public void start(){
+		
+		String key = "1234567891234567";
+		
 		try{
 			// Cria uma buffer que irá armazenar as informações enviadas pelo cliente
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(aceitar.getInputStream()));
@@ -46,12 +50,34 @@ public class MultiServer extends Thread{
             DataOutputStream saida = new DataOutputStream(aceitar.getOutputStream());
 			
             // Faz a leitura das informações enviadas pelo cliente as amazenam na variável "EscritaCliente"
-            String cypher = entrada.readLine();
-			
+            String cypher = entrada.readLine();	
+            
+            System.out.println("chegou no teste");
+            if(cypher.length()%16 == 0){
+            	System.out.println("passou no teste");
+            	cypher = Decrypt.decrypt(cypher, key);
+            }else{
+            	System.out.println("reprovou no teste e vai pra função");
+            	System.out.println("Chamou a função");
+            	fixer(cypher);
+            	cypher = Decrypt.decrypt(cypher, key);
+            } 
+            
+            System.out.println("SERVIDOR: "+cypher);
 			
 		}catch(IOException e){
 			System.out.println("IOException "+e);
 		}
+	}
+	
+	public String fixer(String aux){
+		System.out.println("chegou na função");
+		do{
+			aux = aux+"@";
+			System.out.println("tamanho: "+aux.length());
+			
+		}while(aux.length()%16 != 0);		
+		return aux;
 	}
 }
 
@@ -75,40 +101,3 @@ public class MultiServer extends Thread{
 
 
 
-
-
-
-
-
-
-
-
-
-//package Servidor;
-//
-//import java.net.ServerSocket;
-//import java.net.Socket;
-//
-//public class MultiServer extends Thread {
-//
-//	public static void main(String[] args) {
-//		
-//		int portNumber = 10015;
-//		
-//		try{
-//			//Cria o socket do servidor
-//			ServerSocket server = new ServerSocket(portNumber);
-//			
-//			//Instancia as threads de conexão
-//			while(true){
-//				Socket client = server.accept();
-//				new Tcliente(client).start();
-//			
-//			}
-//			
-//		}catch(Exception e){
-//			System.out.println("Erro: " + e.getMessage());
-//		}
-//	}
-//
-//}

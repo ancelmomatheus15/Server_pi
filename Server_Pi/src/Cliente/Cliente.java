@@ -11,17 +11,18 @@ public class Cliente {
 		
 		String key = "1234567891234567";
 		
-		try{			
-			//Cria o socket com nome de servidor e porta
-			Socket client = new Socket("pi", 12345);													
-			
+		try{	
 			//captura input do console
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Insira o texto a ser enviado: ");
-			String text = in.readLine();
+			String text = "macaxeira";//in.readLine();
 			
 			//Encripta a leitura
 			text = Encrypt.encrypt(text, key);
+			System.out.println("CYPHER: "+text);
+			
+			//Cria o socket com nome de servidor e porta
+			Socket client = new Socket("localhost", 10010);	 
 			
 			//Envia a leitura para o servidor
 			ObjectOutputStream envio = new ObjectOutputStream(client.getOutputStream());
