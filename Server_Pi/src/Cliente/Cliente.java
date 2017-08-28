@@ -15,7 +15,7 @@ public class Cliente {
 			//captura input do console
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Insira o texto a ser enviado: ");
-			String text = "macaxeira";//in.readLine();
+			String text = "matheus";//in.readLine();
 			
 			//Encripta a leitura
 			text = Encrypt.encrypt(text, key);

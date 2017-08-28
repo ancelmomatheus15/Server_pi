@@ -60,6 +60,7 @@ public class MultiServer extends Thread{
             	System.out.println("reprovou no teste e vai pra função");
             	System.out.println("Chamou a função");
             	fixer(cypher);
+            	System.out.println("TAMANHO DO INPUT FINAL :"+cypher.length());
             	cypher = Decrypt.decrypt(cypher, key);
             } 
             
@@ -73,7 +74,8 @@ public class MultiServer extends Thread{
 	public String fixer(String aux){
 		System.out.println("chegou na função");
 		do{
-			aux = aux+"@";
+			aux = aux+"a";
+			System.out.println(aux);
 			System.out.println("tamanho: "+aux.length());
 			
 		}while(aux.length()%16 != 0);		
