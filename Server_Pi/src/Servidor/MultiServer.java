@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -47,38 +49,22 @@ public class MultiServer extends Thread{
 			// Cria uma buffer que irá armazenar as informações enviadas pelo cliente
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(aceitar.getInputStream()));
 			
-            // Cria uma stream de sáida para retorno das informações ao cliente
-            DataOutputStream saida = new DataOutputStream(aceitar.getOutputStream());
-			
-            // Faz a leitura das informações enviadas pelo cliente as amazenam na variável "EscritaCliente"
+            /* Faz a leitura das informações enviadas pelo cliente as amazenam na variável "cypher"
+             * e decifra a informação, exibindo no console
+            */
             String cypher = entrada.readLine();
             int aux = cypher.length();
             cypher = cypher.substring(7, aux);
-            System.out.println("Servidor- Decrypt: "+ Decrypt.decrypt(cypher, key));           
+            System.out.println("Servidor- Informação original: "+ cypher);
+            System.out.println("Servidor- Decrypt: "+ Decrypt.decrypt(cypher, key));  
+            
+            // Cria uma stream de sáida para retorno das informações ao cliente
+            ObjectOutputStream saida = new ObjectOutputStream(aceitar.getOutputStream());
+            ((ObjectOutput) aceitar).flush();
+            saida.writeObject("transmissão ok");
 			
 		}catch(IOException e){
 			System.out.println("Servidor- IOException "+e.getMessage());
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
