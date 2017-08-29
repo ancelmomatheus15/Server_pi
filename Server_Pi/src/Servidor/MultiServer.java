@@ -21,12 +21,13 @@ public class MultiServer extends Thread{
 		try{//tentando criar uma conexao
 		
 			conexao = new ServerSocket(10010);//Cria um SocketServer com porta 11015
-			System.out.println("OUVINDO PORTA "+conexao.getLocalPort());
+			System.out.println("Servidor- OUVINDO PORTA "+conexao.getLocalPort());
+			//System.out.println("TESTE RESPOSTA: "+ Decrypt.decrypt(, key));
 			
 			while(true){
 				
 				aceitar = conexao.accept();	
-				System.out.println("Cliente Conectado");
+				System.out.println("Servidor- Cliente Conectado");
 				//cria uma thread que envia a conexao
 				Thread t = new MultiServer(aceitar);
 				//inicia a thread t
@@ -34,7 +35,7 @@ public class MultiServer extends Thread{
 				 
 			}
 		}catch(IOException e){
-			System.out.println("IOException "+e);
+			System.out.println("Servidor- IOException "+e.getMessage());
 		}
 	}
 
@@ -50,36 +51,14 @@ public class MultiServer extends Thread{
             DataOutputStream saida = new DataOutputStream(aceitar.getOutputStream());
 			
             // Faz a leitura das informações enviadas pelo cliente as amazenam na variável "EscritaCliente"
-            String cypher = entrada.readLine();	
-            
-            System.out.println("chegou no teste");
-            if(cypher.length()%16 == 0){
-            	System.out.println("passou no teste");
-            	cypher = Decrypt.decrypt(cypher, key);
-            }else{
-            	System.out.println("reprovou no teste e vai pra função");
-            	System.out.println("Chamou a função");
-            	fixer(cypher);
-            	System.out.println("TAMANHO DO INPUT FINAL :"+cypher.length());
-            	cypher = Decrypt.decrypt(cypher, key);
-            } 
-            
-            System.out.println("SERVIDOR: "+cypher);
+            String cypher = entrada.readLine();
+            int aux = cypher.length();
+            cypher = cypher.substring(7, aux);
+            System.out.println("Servidor- Decrypt: "+ Decrypt.decrypt(cypher, key));           
 			
 		}catch(IOException e){
-			System.out.println("IOException "+e);
+			System.out.println("Servidor- IOException "+e.getMessage());
 		}
-	}
-	
-	public String fixer(String aux){
-		System.out.println("chegou na função");
-		do{
-			aux = aux+"a";
-			System.out.println(aux);
-			System.out.println("tamanho: "+aux.length());
-			
-		}while(aux.length()%16 != 0);		
-		return aux;
 	}
 }
 

@@ -12,17 +12,18 @@ public class Cliente {
 		String key = "1234567891234567";
 		
 		try{	
+			//Cria o socket com nome de servidor e porta
+			Socket client = new Socket("localhost", 10010);	
+			System.out.println("Cliente- CONECTADO");
+			
 			//captura input do console
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Insira o texto a ser enviado: ");
-			String text = "matheus";//in.readLine();
+			String text = "Gladys Canete";//in.readLine();
 			
 			//Encripta a leitura
 			text = Encrypt.encrypt(text, key);
-			System.out.println("CYPHER: "+text);
-			
-			//Cria o socket com nome de servidor e porta
-			Socket client = new Socket("localhost", 10010);	 
+			System.out.println("Cliente- CYPHER: "+text);			 
 			
 			//Envia a leitura para o servidor
 			ObjectOutputStream envio = new ObjectOutputStream(client.getOutputStream());
@@ -30,10 +31,10 @@ public class Cliente {
 			
 			//Encerra o processo
 		    envio.close();
-		    System.out.println("Conexão encerrada");
+		    System.out.println("Cliente- Conexão encerrada");
 			
 		}catch(Exception e){
-			System.out.println("Erro: " + e.getMessage());
+			System.out.println("Cliente- Erro: " + e.getMessage());
 		}
 	}
 }
