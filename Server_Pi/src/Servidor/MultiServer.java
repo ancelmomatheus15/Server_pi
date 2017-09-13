@@ -53,7 +53,8 @@ public class MultiServer extends Thread{
              * e decifra a informação, exibindo no console
             */
             String cypher = entrada.readLine();
-            System.out.println("Servidor- "+cypher);
+            String values[] = tratarMac(cypher);
+            
             int aux = cypher.length();
             cypher = cypher.substring(7, aux);
             System.out.println("Servidor- Informação original: "+ cypher);
@@ -67,5 +68,23 @@ public class MultiServer extends Thread{
 		}catch(IOException e){
 			System.out.println("Servidor- IOException "+e.getMessage());
 		}
+	}
+
+	private String[] tratarMac(String cypher) {
+		String arrayReturn[] = new String [2];
+		
+		String[] arrayCorte = cypher.split(",");
+        String mac = arrayCorte[1].trim();
+        int aux = mac.length();
+        mac = mac.substring(0, aux-1);
+        arrayReturn[1] = mac;
+        
+        String cifra = "";
+        cifra = arrayCorte[0].trim();
+        aux = cifra.length();
+        cifra = cifra.substring(1, aux);
+        arrayReturn[0] = cifra;
+        
+		return arrayReturn;
 	}
 }

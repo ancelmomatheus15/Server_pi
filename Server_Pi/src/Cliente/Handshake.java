@@ -33,6 +33,7 @@ public class Handshake {
 			}
 			
 			String macAdress = sb.toString();
+			System.out.println(macAdress);
 			return macAdress;
 
 		} catch (UnknownHostException e) {
