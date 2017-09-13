@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Handshake {
 	
-	public String HandShake(){
+	public static String HandShake(){
 		
 		// ip necessario para verificar ip e mac
 		InetAddress ip;

@@ -27,8 +27,12 @@ public class Cliente {
 			System.out.println("Cliente- Cypher: "+text);			 
 			
 			//Envia a leitura para o servidor
+			String envios[] = new String[2];
+			envios[0] = text;
+			envios[1] = Handshake.HandShake();
+			
 			ObjectOutputStream envio = new ObjectOutputStream(client.getOutputStream());
-			envio.writeObject(text);
+			envio.writeObject(envios);
 			
 			//Recebe do servidor
 			String recebimento = "";

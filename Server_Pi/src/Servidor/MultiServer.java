@@ -53,6 +53,7 @@ public class MultiServer extends Thread{
              * e decifra a informação, exibindo no console
             */
             String cypher = entrada.readLine();
+            System.out.println("Servidor- "+cypher);
             int aux = cypher.length();
             cypher = cypher.substring(7, aux);
             System.out.println("Servidor- Informação original: "+ cypher);
