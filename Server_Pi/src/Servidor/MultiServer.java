@@ -14,7 +14,7 @@ public class MultiServer extends Thread{
 	static ServerSocket conexao = null;
 	static Socket aceitar = null;
 	
-	public MultiServer(Socket aux){
+	public MultiServer(Socket aux){ 
 		aceitar = aux;
 	}
 	
@@ -55,19 +55,33 @@ public class MultiServer extends Thread{
             String cypher = entrada.readLine();
             String values[] = tratarMac(cypher);
             
-            int aux = cypher.length();
-            cypher = cypher.substring(7, aux);
-            System.out.println("Servidor- Informação original: "+ cypher);
-            System.out.println("Servidor- Decrypt: "+ Decrypt.decrypt(cypher, key));  
+            if(handshake(values[1])==true) {
+            	cypher = values[0];
             
-            // Cria uma stream de sáida para retorno das informações ao cliente
-            ObjectOutputStream saida = new ObjectOutputStream(aceitar.getOutputStream());
-            ((ObjectOutput) aceitar).flush();
-            saida.writeObject("transmissão ok");
-			
+            	int aux = cypher.length();
+            	cypher = cypher.substring(7, aux);
+            	System.out.println("Servidor- Informação original: "+ cypher);
+            	System.out.println("Servidor- Decrypt: "+ Decrypt.decrypt(cypher, key)); 
+            	
+            	// Cria uma stream de sáida para retorno das informações ao cliente
+            	ObjectOutputStream saida = new ObjectOutputStream(aceitar.getOutputStream());
+            	((ObjectOutput) aceitar).flush();
+            	saida.writeObject("transmissão ok");
+            }
+            else {
+            	// Cria uma stream de sáida para retorno das informações ao cliente
+            	ObjectOutputStream saida = new ObjectOutputStream(aceitar.getOutputStream());
+            	((ObjectOutput) aceitar).flush();
+            	saida.writeObject("ERRO! Falha de segurança");
+            }     
+            
 		}catch(IOException e){
 			System.out.println("Servidor- IOException "+e.getMessage());
 		}
+	}
+
+	private boolean handshake(String mac) {		
+		return Handshake.buscaMac(mac);
 	}
 
 	private String[] tratarMac(String cypher) {

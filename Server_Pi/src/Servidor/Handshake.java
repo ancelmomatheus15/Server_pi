@@ -15,7 +15,7 @@ public class Handshake {
 		escreveTxt(insereMac);
 	}
 	
-	private static boolean buscaMac(String buscaMac) {
+	static boolean buscaMac(String buscaMac) {
 		List<String> macs = new ArrayList<String>();
 		
 		macs = leTxt();
@@ -82,5 +82,5 @@ public class Handshake {
 			System.out.println("ERRO! Erro de leitura");
 		}
 		return enderecos;	
-	}
+	}	
 }
